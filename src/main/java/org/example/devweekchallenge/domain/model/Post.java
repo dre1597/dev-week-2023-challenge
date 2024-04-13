@@ -18,6 +18,14 @@ public class Post {
   @JoinColumn()
   private User author;
 
+  public Post() {
+  }
+
+  public Post(String title, String content) {
+    this.title = title;
+    this.content = content;
+  }
+
   public String getId() {
     return id;
   }
