@@ -2,6 +2,8 @@ package org.example.devweekchallenge.service;
 
 import org.example.devweekchallenge.domain.model.User;
 import org.example.devweekchallenge.domain.repository.UserRepository;
+import org.example.devweekchallenge.dto.CreateUser;
+import org.example.devweekchallenge.dto.UpdateUser;
 import org.example.devweekchallenge.exceptions.BusinessException;
 import org.example.devweekchallenge.exceptions.NotFoundException;
 import org.example.devweekchallenge.service.contracts.IUserService;
@@ -24,14 +26,13 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public User create(final User userToCreate) {
-    var user = userRepository.findByEmail(userToCreate.getEmail());
+  public User create(final CreateUser userToCreate) {
+    var user = userRepository.findByEmail(userToCreate.email());
 
     if (user != null) {
       throw new BusinessException("User already exists");
     }
-
-    return userRepository.save(userToCreate);
+    return userRepository.save(userToCreate.toUser());
   }
 
   @Override
@@ -40,19 +41,22 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public User update(final String id, final User userToUpdate) {
-    var user = userRepository.findById(id).orElse(null);
-    var emailAlreadyExists = userRepository.findByEmail(userToUpdate.getEmail());
+  public User update(final String id, final UpdateUser userToUpdate) {
+    var userExists = userRepository.findById(id).orElse(null);
+    var emailAlreadyExists = userRepository.findByEmail(userToUpdate.email());
 
-    if (user == null) {
+    if (userExists == null) {
       throw new NotFoundException("User not found");
     }
 
-    if (emailAlreadyExists != null && !emailAlreadyExists.getId().equals(id) && emailAlreadyExists.getEmail().equals(userToUpdate.getEmail())) {
+    if (emailAlreadyExists != null && !emailAlreadyExists.getId().equals(id) && emailAlreadyExists.getEmail().equals(userToUpdate.email())) {
       throw new BusinessException("User already exists");
     }
 
-    return userRepository.save(user);
+    var updatedUser = userToUpdate.toUser();
+    updatedUser.setId(id);
+    
+    return userRepository.save(updatedUser);
   }
 
   @Override

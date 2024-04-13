@@ -21,8 +21,17 @@ public class User {
   @JsonIgnore
   private String password;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   private List<Post> posts;
+
+  public User() {
+  }
+
+  public User(final String name, final String email, final String password) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
 
   public String getId() {
     return id;
