@@ -28,13 +28,17 @@ public class PostService implements IPostService {
   }
 
   @Override
-  public Post create(final CreatePostDto post) {
-    var author = userRepository.findById(post.authorId()).orElse(null);
+  public Post create(final CreatePostDto postToCreate) {
+    var author = userRepository.findById(postToCreate.authorId()).orElse(null);
 
     if (author == null) {
       throw new NotFoundException("Author not found");
     }
-    return postRepository.save(post.toPost());
+
+    var post = postToCreate.toPost();
+    post.setAuthor(author);
+
+    return postRepository.save(post);
   }
 
   @Override
@@ -43,14 +47,23 @@ public class PostService implements IPostService {
   }
 
   @Override
-  public Post update(final String id, final UpdatePostDto post) {
-    var author = userRepository.findById(post.authorId()).orElse(null);
+  public Post update(final String id, final UpdatePostDto postToUpdate) {
+    var postExists = postRepository.findById(id).orElse(null);
+    var author = userRepository.findById(postToUpdate.authorId()).orElse(null);
+
+    if (postExists == null) {
+      throw new NotFoundException("Post not found");
+    }
 
     if (author == null) {
       throw new NotFoundException("Author not found");
     }
 
-    return postRepository.save(post.toPost());
+    var post = postToUpdate.toPost();
+    post.setId(id);
+    post.setAuthor(author);
+
+    return postRepository.save(postToUpdate.toPost());
   }
 
   @Override

@@ -3,7 +3,7 @@ package org.example.devweekchallenge.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "users")
 public class User {
@@ -21,13 +21,17 @@ public class User {
   @JsonIgnore
   private String password;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-  private List<Post> posts;
-
   public User() {
   }
 
   public User(final String name, final String email, final String password) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+  }
+
+  public User(final String id, final String name, final String email, final String password) {
+    this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
@@ -65,11 +69,16 @@ public class User {
     this.password = password;
   }
 
-  public List<Post> getPosts() {
-    return posts;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    User user = (User) o;
+    return Objects.equals(getId(), user.getId());
   }
 
-  public void setPosts(List<Post> posts) {
-    this.posts = posts;
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(getId());
   }
 }
