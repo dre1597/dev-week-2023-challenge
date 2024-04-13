@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.example.devweekchallenge.domain.model.User;
 
-public record CreateUser(
+public record CreateUserDto(
     @NotNull @Size(min = 6, max = 100) String name,
     @NotNull @Email String email,
     @NotNull @Size(min = 8, max = 20) String password

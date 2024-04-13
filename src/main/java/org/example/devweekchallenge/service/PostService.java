@@ -3,8 +3,8 @@ package org.example.devweekchallenge.service;
 import org.example.devweekchallenge.domain.model.Post;
 import org.example.devweekchallenge.domain.repository.PostRepository;
 import org.example.devweekchallenge.domain.repository.UserRepository;
-import org.example.devweekchallenge.dto.CreatePost;
-import org.example.devweekchallenge.dto.UpdatePost;
+import org.example.devweekchallenge.dto.CreatePostDto;
+import org.example.devweekchallenge.dto.UpdatePostDto;
 import org.example.devweekchallenge.exceptions.NotFoundException;
 import org.example.devweekchallenge.service.contracts.IPostService;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class PostService implements IPostService {
   }
 
   @Override
-  public Post create(final CreatePost post) {
+  public Post create(final CreatePostDto post) {
     var author = userRepository.findById(post.authorId()).orElse(null);
 
     if (author == null) {
@@ -43,7 +43,7 @@ public class PostService implements IPostService {
   }
 
   @Override
-  public Post update(final String id, final UpdatePost post) {
+  public Post update(final String id, final UpdatePostDto post) {
     var author = userRepository.findById(post.authorId()).orElse(null);
 
     if (author == null) {

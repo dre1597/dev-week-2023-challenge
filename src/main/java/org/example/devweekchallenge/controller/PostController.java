@@ -2,8 +2,8 @@ package org.example.devweekchallenge.controller;
 
 import jakarta.validation.Valid;
 import org.example.devweekchallenge.domain.model.Post;
-import org.example.devweekchallenge.dto.CreatePost;
-import org.example.devweekchallenge.dto.UpdatePost;
+import org.example.devweekchallenge.dto.CreatePostDto;
+import org.example.devweekchallenge.dto.UpdatePostDto;
 import org.example.devweekchallenge.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class PostController {
   }
 
   @PostMapping
-  public ResponseEntity<Post> create(@RequestBody @Valid final CreatePost post) {
+  public ResponseEntity<Post> create(@RequestBody @Valid final CreatePostDto post) {
     return ResponseEntity.ok(service.create(post));
   }
 
@@ -36,7 +36,7 @@ public class PostController {
   }
 
   @PutMapping(path = "/{id}")
-  public ResponseEntity<Post> update(@PathVariable("id") final String id, @RequestBody @Valid final UpdatePost post) {
+  public ResponseEntity<Post> update(@PathVariable("id") final String id, @RequestBody @Valid final UpdatePostDto post) {
     return ResponseEntity.ok(service.update(id, post));
   }
 

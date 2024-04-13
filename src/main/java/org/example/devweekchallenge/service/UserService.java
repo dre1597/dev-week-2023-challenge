@@ -2,8 +2,8 @@ package org.example.devweekchallenge.service;
 
 import org.example.devweekchallenge.domain.model.User;
 import org.example.devweekchallenge.domain.repository.UserRepository;
-import org.example.devweekchallenge.dto.CreateUser;
-import org.example.devweekchallenge.dto.UpdateUser;
+import org.example.devweekchallenge.dto.CreateUserDto;
+import org.example.devweekchallenge.dto.UpdateUserDto;
 import org.example.devweekchallenge.exceptions.BusinessException;
 import org.example.devweekchallenge.exceptions.NotFoundException;
 import org.example.devweekchallenge.service.contracts.IUserService;
@@ -26,7 +26,7 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public User create(final CreateUser userToCreate) {
+  public User create(final CreateUserDto userToCreate) {
     var user = userRepository.findByEmail(userToCreate.email());
 
     if (user != null) {
@@ -41,7 +41,7 @@ public class UserService implements IUserService {
   }
 
   @Override
-  public User update(final String id, final UpdateUser userToUpdate) {
+  public User update(final String id, final UpdateUserDto userToUpdate) {
     var userExists = userRepository.findById(id).orElse(null);
     var emailAlreadyExists = userRepository.findByEmail(userToUpdate.email());
 
@@ -55,7 +55,7 @@ public class UserService implements IUserService {
 
     var updatedUser = userToUpdate.toUser();
     updatedUser.setId(id);
-    
+
     return userRepository.save(updatedUser);
   }
 

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import org.example.devweekchallenge.domain.model.Post;
 import org.hibernate.validator.constraints.UUID;
 
-public record UpdatePost(
+public record CreatePostDto(
     @NotNull @Size(min = 1, max = 100) String title,
     @NotNull @Size(min = 1, max = 1000) String content,
     @NotNull @UUID String authorId
