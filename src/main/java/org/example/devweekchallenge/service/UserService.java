@@ -5,10 +5,12 @@ import org.example.devweekchallenge.domain.repository.UserRepository;
 import org.example.devweekchallenge.exceptions.BusinessException;
 import org.example.devweekchallenge.exceptions.NotFoundException;
 import org.example.devweekchallenge.service.contracts.IUserService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
+@Service
 public class UserService implements IUserService {
   private final UserRepository userRepository;
 
